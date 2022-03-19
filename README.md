@@ -1,83 +1,45 @@
-Mac Vendor Lookup
+Mac Searcher
 =================
 
-This library provides an easy way to get vendor information from a MAC address. It contains a local copy of the IEEE's
-OUI prefix list. It has an asynchronous interface using Python 3's asyncio as well as a regular synchronous interface
-for old-school usage.
+This is a CLI based tool to quickly search against the OUI database provided by IEEE. It's based on the library mac_vendor_lookup by Johann Bauer https://github.com/bauerj, but I've re-written it to download a cache file to desktop for offline queries and written it to not use async calls. 
 
-## Installation
+## Install
 
-    pip install mac-vendor-lookup
+Simply clone this repo into your desired location. The first run of the tool will require an internet connection to download the latest OUI database.
+
+```git
+git clone https://github.com/Terrarasa/mac_vendor_lookup.git
+```
 
 ## Basic Usage
 
-```python
-from mac_vendor_lookup import MacLookup
+By passing a mac using the -m argument, you can search for a single mac address against the database.
 
-print(MacLookup().lookup("00:80:41:12:FE"))
+```python
+py mac_searcher.py -m 98:60:CA:22:2F:5F
+98:60:CA:22:2F:5F : Apple, Inc.
 ```
 
-Output:
+You can also output a single search to a file using the -o argument
 
-> VEB KOMBINAT ROBOTRON
+```python
+py mac_searcher.py -m 98:60:CA:22:2F:5F -o out.txt
+Output file out.txt written to successfully!
+```
+
+## CSV input/output
+
+This tool can read and write csv files. Each MAC should be entered on a new row. The output will have each mac and vendor in separate columns on their own row
+
+```python
+py mac_searcher.py -i macs.csv --outfile out.csv
+Output file out.csv written to successfully!
+```
 
 ## Update the vendor list
 
-The library contains a list of MAC prefixes obtained at build-time. If you need up-to-date information, you can
-download a fresh copy of the list directly from IEEE with `MacLookup.update_vendors` or `AsyncMacLookup.update_vendors`:
+The tool will download a copy of the vendor list on first run. This is stored in the same directory as the tool itself. To download a fresh copy of the database, run:
 
 ```python
-from mac_vendor_lookup import MacLookup
-
-mac = MacLookup()
-mac.update_vendors()  # <- This can take a few seconds for the download
-    
-def find_mac(mac_address):
-    print(mac.lookup(mac_address))
-
-```
-
-## Vendor list custom location or path
-
-The library stores and looks for the list of MAC prefixes in a group predefined defaults paths. If a custom 
-directory is required, then override the class variable `cache_path` of `class BaseMacLookup(...)` from it default 
-location of: `os.path.expanduser('~/.cache/mac-vendors.txt')` to your prefered location.
-
-```python
-from mac_vendor_lookup import MacLookup, BaseMacLookup
-
-BaseMacLookup.cache_path = "/relative/or/absolute/path/to/the/prefered/storage/location"
-mac = MacLookup()
-mac.update_vendors()  # <- This can take a few seconds for the download and it will be stored in the new path
-    
-def find_mac(mac_address):
-    print(mac.lookup(mac_address))
-
-```
-
-## Async Interface
-
-There is also an asynchronous interface available:
-
-```python
-from mac_vendor_lookup import AsyncMacLookup
-
-async def main():
-    mac = AsyncMacLookup()
-    print(await mac.lookup("98:ED:5C:FF:EE:01"))
-```
-
-Output:
-
-> Tesla Motors, Inc
-
-## Command line interface
-
-This library provides a rudimentary command line interface:
-
-```bash
-$ mac_vendor_lookup 50-D3-7F-00-01-00
-Yu Fly Mikly Way Science and Technology Co., Ltd.
-$ python3 -m mac_vendor_lookup 00:26:12:12:FE
-Space Exploration Technologies
+py mac_searcher.py -u
 ```
