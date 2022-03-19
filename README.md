@@ -15,14 +15,14 @@ git clone https://github.com/Terrarasa/mac_vendor_lookup.git
 
 By passing a mac using the -m argument, you can search for a single mac address against the database.
 
-```python
+```cli
 py mac_searcher.py -m 98:60:CA:22:2F:5F
 98:60:CA:22:2F:5F : Apple, Inc.
 ```
 
 You can also output a single search to a file using the -o argument
 
-```python
+```cli
 py mac_searcher.py -m 98:60:CA:22:2F:5F -o out.txt
 Output file out.txt written to successfully!
 ```
@@ -31,7 +31,7 @@ Output file out.txt written to successfully!
 
 This tool can read and write csv files. Each MAC should be entered on a new row. The output will have each mac and vendor in separate columns on their own row
 
-```python
+```cli
 py mac_searcher.py -i macs.csv --outfile out.csv
 Output file out.csv written to successfully!
 ```
@@ -40,6 +40,6 @@ Output file out.csv written to successfully!
 
 The tool will download a copy of the vendor list on first run. This is stored in the same directory as the tool itself. To download a fresh copy of the database, run:
 
-```python
+```cli
 py mac_searcher.py -u
 ```
