@@ -6,7 +6,6 @@
 ##-----------------------------------------------##
 
 import argparse, sys, mac_vendor_lookup, csv, os.path
-from dataclasses import replace
 
 def main():
     #MacLookup opject
@@ -72,10 +71,11 @@ def main():
                     writer.writeheader()
 
                     for row in mac_file:
-                        try:
-                            _mac = str(row)
-                            #Strip out brackets and single quotes from imported rows
-                            mac_string = _mac.replace("['","").replace("']","")
+                        _mac = str(row)
+                        #Strip out brackets and single quotes from imported rows
+                        mac_string = _mac.replace("['","").replace("']","")    
+                        
+                        try:   
                             writer.writerow({"MAC Address":mac_string, "Vendor":mac.lookup(mac_string)})
                         except mac_vendor_lookup.VendorNotFoundError:
                             writer.writerow({"MAC Address":mac_string, "Vendor": "Not Found"})
@@ -87,9 +87,10 @@ def main():
             else:
                 #Print to stdout
                 for row in mac_file:
-                    try:
-                        _mac = str(row)
-                        mac_string = _mac.replace("['","").replace("']","")
+                    _mac = str(row)
+                    mac_string = _mac.replace("['","").replace("']","")
+                    
+                    try:    
                         print(f"{mac_string} : {mac.lookup(mac_string)}")
                     except mac_vendor_lookup.VendorNotFoundError:
                         print(f"{mac_string} has not been found in the vendor list")
