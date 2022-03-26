@@ -1,7 +1,7 @@
 Mac Searcher
 =================
 
-This is a CLI based tool to quickly search against the OUI database provided by IEEE. It's based on the library mac_vendor_lookup by Johann Bauer https://github.com/bauerj, but I've re-written it to download a cache file to desktop for offline queries and written it to not use async calls. 
+This is a CLI based tool to quickly search against the OUI database provided by IEEE. It's based on the library mac_vendor_lookup by Johann Bauer https://github.com/bauerj, but I've re-written it to download a cache file for offline queries and to not use async calls. 
 
 ## Install
 
