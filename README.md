@@ -8,7 +8,7 @@ This is a CLI based tool to quickly search against the OUI database provided by 
 Simply clone this repo into your desired location. The first run of the tool will require an internet connection to download the latest OUI database.
 
 ```git
-git clone https://github.com/Terrarasa/mac_vendor_lookup.git
+git clone https://github.com/Terrarasa/mac_searcher.git
 ```
 
 ## Basic Usage
